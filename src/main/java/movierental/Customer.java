@@ -1,4 +1,5 @@
 package movierental;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class Customer {
         int frequentRenterPoints = 0;
         String result = "Rental Record for " + getName() + "\n";
 
-        for (Rental each: _rentals) {
+        for (Rental each : _rentals) {
             double thisAmount = 0;
 
             //determine amounts for each line
