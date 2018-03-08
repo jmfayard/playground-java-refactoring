@@ -6,7 +6,7 @@ import java.util.List;
 
 public class CustomerBuilder {
 
-    public static final String NAME = "Gregroire";
+    public static final String NAME = "Gregoire";
     private String name = NAME;
     private List<Rental> rentals = new ArrayList<Rental>();
 
