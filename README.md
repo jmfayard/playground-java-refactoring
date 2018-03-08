@@ -1,5 +1,4 @@
-Movie Rental
-===========
+# Movie Rental
 
 This source code follows Martin Fowler's book " Refactoring, Improving the Design of Existing Code".
 
@@ -12,18 +11,15 @@ You need to build a solid set of tests for that section of code. The tests are e
 though you follow refactorings structured to avoid most of the opportunities for introducing bugs,
 you are still human and still make mistakes. Thus you need solid tests.
 
-Usage
------
+## Usage
 
 The purpose of this is to provide good examples for the refactoring workshop.
 
-Build
------
+## Build
 
 All you need to build this project is Java 6.0 (Java SDK 1.6) or later, Maven 3.0 or later.
 
-Testing
--------
+## Testing
 
 Unit tests can be run using maven[1]:
 
