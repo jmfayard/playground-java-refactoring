@@ -36,7 +36,7 @@ The purpose of this is to provide good examples for the refactoring workshop.
 
 ## Build
 
-All you need to build this project is Java 6.0 (Java SDK 1.6) or later, Maven 3.0 or later.
+All you need to build this project is Java 11 or later, Maven 3.0 or later.
 
 ## Testing
 
