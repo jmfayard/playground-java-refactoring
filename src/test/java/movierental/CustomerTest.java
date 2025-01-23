@@ -16,16 +16,17 @@ public class CustomerTest {
         customer.addRental(new Rental(new Movie("Bambi", Movie.CHILDRENS), 3));
         customer.addRental(new Rental(new Movie("Toy Story", Movie.CHILDRENS), 4));
 
-        String expected = "" +
-                "Rental Record for Bob\n" +
-                "\tJaws\t2.0\n" +
-                "\tGolden Eye\t3.5\n" +
-                "\tShort New\t3.0\n" +
-                "\tLong New\t6.0\n" +
-                "\tBambi\t1.5\n" +
-                "\tToy Story\t3.0\n" +
-                "Amount owed is 19.0\n" +
-                "You earned 7 frequent renter points";
+        String expected = """
+Rental Record for Bob
+	Jaws	2.0
+	Golden Eye	3.5
+	Short New	3.0
+	Long New	6.0
+	Bambi	1.5
+	Toy Story	3.0
+Amount owed is 19.0
+You earned 7 frequent renter points
+                """;
 
         assertEquals(expected, customer.statement());
     }
