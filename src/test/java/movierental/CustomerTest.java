@@ -30,4 +30,9 @@ You earned 7 frequent renter points
 
         assertEquals(expected, customer.statement());
     }
+
+    @Test
+    public void kotlinIsConfigured() {
+        assertEquals("You were always on my mind", Elvis.INSTANCE.sing());
+    }
 }
