@@ -3,21 +3,12 @@ package movierental;
 /**
  * The rental class represents a customer renting a movie.
  */
-public class Rental {
-
-    private Movie _movie;
-    private int _daysRented;
-
-    public Rental(Movie movie, int daysRented) {
-        _movie = movie;
-        _daysRented = daysRented;
+public record Rental(Movie movie, Integer daysRented) {
+    public boolean isEligibleToRentalBonus() {
+        return movie.isNewRelease() && this.daysRented() > 1;
     }
 
-    public int getDaysRented() {
-        return _daysRented;
-    }
-
-    public Movie getMovie() {
-        return _movie;
+    public int rentalBonus() {
+        return isEligibleToRentalBonus() ? 2 : 1;
     }
 }

@@ -14,14 +14,19 @@ public class Customer {
         this.name = name;
     }
 
+    public Customer addRental(String movie, PriceCode priceCode, int daysRented) {
+        return addRental(new Rental(new Movie(movie, priceCode), daysRented));
+    }
+
     public Customer addRental(Rental arg) {
         rentals.add(arg);
         return this;
     }
 
     public String statement() {
+        // add bonus for a two day new release rental
         int frequentRenterPoints = rentals.stream()
-                .map(this::addBonusForRental)
+                .map(Rental::rentalBonus)
                 .reduce(0, Integer::sum);
 
         double totalAmount = rentals.stream()
@@ -37,35 +42,25 @@ public class Customer {
     }
 
     private static String addTitleForLine(Rental each, double thisAmount) {
-        return "\t" + each.getMovie().getTitle() + "\t" + thisAmount + "\n";
-    }
-
-    int addBonusForRental(Rental each) {
-        // add bonus for a two day new release rental
-        if ((each.getMovie().getPriceCode() == Movie.NEW_RELEASE) && each.getDaysRented() > 1)
-            return  2;
-        else {
-            return  1;
-        }
+        Movie movie = each.movie();
+        return String.format("\t%s\t%s\n", movie.title(), thisAmount);
     }
 
     private static double determineAmountsForLine(Rental each) {
-        double thisAmount = 0;
-        switch (each.getMovie().getPriceCode()) {
-            case Movie.REGULAR:
-                thisAmount += 2;
-                if (each.getDaysRented() > 2)
-                    thisAmount += (each.getDaysRented() - 2) * 1.5;
-                break;
-            case Movie.NEW_RELEASE:
-                thisAmount += each.getDaysRented() * 3;
-                break;
-            case Movie.CHILDRENS:
-                thisAmount += 1.5;
-                if (each.getDaysRented() > 3)
-                    thisAmount += (each.getDaysRented() - 3) * 1.5;
-                break;
-        }
-        return thisAmount;
+        return switch (each.movie().priceCode()) {
+            case PriceCode.REGULAR:
+                if (each.daysRented() > 2)
+                    yield 1.5 * each.daysRented() - 1;
+                else
+                    yield 2;
+            case PriceCode.NEW_RELEASE:
+                yield each.daysRented() * 3;
+            case PriceCode.CHILDRENS:
+                if (each.daysRented() > 3)
+                    yield 1.5 * each.daysRented() - 3;
+                else
+                    yield 1.5;
+        };
     }
+
 }
