@@ -6,7 +6,7 @@ import java.util.List;
 public class Customer {
 
     private final String name;
-    private final List<Rental> rentals = new ArrayList<Rental>();
+    private final List<Rental> rentals = new ArrayList<>();
 
     public Customer(String name) {
         this.name = name;
@@ -51,7 +51,7 @@ public class Customer {
 
             // show figures for this rental
             // Merci pour la suggestion mais non
-            result += "\t" + each.getMovie().getTitle() + "\t" + String.valueOf(thisAmount) + "\n";
+            result += "\t" + each.getMovie().getTitle() + "\t" + thisAmount + "\n";
             totalAmount += thisAmount;
         }
 
