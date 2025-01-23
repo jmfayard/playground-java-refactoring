@@ -12,8 +12,9 @@ public class Customer {
         _name = name;
     }
 
-    public void addRental(Rental arg) {
+    public Customer addRental(Rental arg) {
         _rentals.add(arg);
+        return this;
     }
 
     public String getName() {
