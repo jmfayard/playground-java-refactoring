@@ -50,6 +50,7 @@ public class Customer {
             }
 
             // show figures for this rental
+            // Merci pour la suggestion mais non
             result += "\t" + each.getMovie().getTitle() + "\t" + String.valueOf(thisAmount) + "\n";
             totalAmount += thisAmount;
         }
