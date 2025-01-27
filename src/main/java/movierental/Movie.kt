@@ -1,9 +1,10 @@
-package movierental;
+package movierental
 
-public record Movie(String title, PriceCode priceCode) {
-
-    public boolean isNewRelease() {
-        return PriceCode.NEW_RELEASE == priceCode;
-    }
+data class Movie(
+    val title: String,
+    val priceCode: PriceCode,
+) {
+    fun isNewRelease(): Boolean =
+        PriceCode.NEW_RELEASE == priceCode
 }
 
