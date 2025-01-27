@@ -1,5 +1,7 @@
 package movierental;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.stream.Collectors;
 
 public class RentalsFormatter {
@@ -11,28 +13,38 @@ public class RentalsFormatter {
 
     public String statement() {
         // add bonus for a two day new release rental
-        int frequentRenterPoints = customer.rentals.stream()
-                .map(Rental::rentalBonus)
-                .reduce(0, Integer::sum);
-
-        double totalAmount = customer.rentals.stream()
-                .map(RentalsFormatter::determineAmountsForLine)
-                .reduce(0.0, Double::sum);
-
-        String titles = customer.rentals.stream()
-                .map(each ->
-                        addTitleForLine(each, determineAmountsForLine(each))
-                ).collect(Collectors.joining());
+        int frequentRenterPoints = getFrequentRenterPoints();
+        double totalAmount = getTotalAmount();
+        String titles = rentalsTitles();
 
         return "Rental Record for " + customer.name + "\n" + titles + ("Amount owed is " + totalAmount + "\n") + ("You earned " + frequentRenterPoints + " frequent renter points\n");
     }
 
-    private static String addTitleForLine(Rental each, double thisAmount) {
+    @NotNull
+    private String rentalsTitles() {
+        return customer.rentals.stream()
+                .map(each -> addTitleForLine(each, determineAmountsForLine(each)))
+                .collect(Collectors.joining());
+    }
+
+    double getTotalAmount() {
+        return customer.rentals.stream()
+                .map(RentalsFormatter::determineAmountsForLine)
+                .reduce(0.0, Double::sum);
+    }
+
+    int getFrequentRenterPoints() {
+        return customer.rentals.stream()
+                .map(Rental::rentalBonus)
+                .reduce(0, Integer::sum);
+    }
+
+    static String addTitleForLine(Rental each, double thisAmount) {
         Movie movie = each.movie();
         return String.format("\t%s\t%s\n", movie.title(), thisAmount);
     }
 
-    private static double determineAmountsForLine(Rental each) {
+    static double determineAmountsForLine(Rental each) {
         return switch (each.movie().priceCode()) {
             case PriceCode.REGULAR:
                 if (each.daysRented() > 2)
