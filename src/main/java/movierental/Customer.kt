@@ -15,5 +15,5 @@ data class Customer(
     }
 
     fun statement(): String =
-        RentalsFormatter(this).statement()
+        CustomersFormatter(this).statement()
 }

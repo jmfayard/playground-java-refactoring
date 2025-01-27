@@ -1,6 +1,6 @@
 package movierental
 
-class RentalsFormatter(val customer: Customer) {
+class CustomersFormatter(val customer: Customer) {
 
     fun statement(): String {
         // add bonus for a two day new release rental
@@ -10,12 +10,14 @@ class RentalsFormatter(val customer: Customer) {
         val amountOwned = "Amount owed is $totalAmount"
         val youEarned = "You earned $frequentRenterPoints frequent renter points"
         return """
-Rental Record for ${customer.name}
+${header()}
 ${rentalsTitles()}
 $amountOwned
 $youEarned
 """.trimStart()
     }
+
+    fun header(): String = """Rental Record for ${customer.name}"""
 
     fun rentalsTitles(): String = customer.rentals
         .joinToString(separator = "") { rental ->
