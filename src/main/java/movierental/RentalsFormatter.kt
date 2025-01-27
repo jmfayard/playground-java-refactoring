@@ -1,7 +1,5 @@
 package movierental
 
-import java.util.stream.Collectors
-
 class RentalsFormatter(val customer: Customer) {
 
     fun statement(): String {
@@ -13,34 +11,24 @@ class RentalsFormatter(val customer: Customer) {
         return "Rental Record for " + customer.name + "\n" + titles + ("Amount owed is " + totalAmount + "\n") + ("You earned " + frequentRenterPoints + " frequent renter points\n")
     }
 
-    private fun rentalsTitles(): String {
-        return customer.rentals.stream()
-            .map<String> { each: Rental ->
-                addTitleForLine(
-                    each,
-                    determineAmountsForLine(each)
-                )
-            }
-            .collect(Collectors.joining())
-    }
+    fun rentalsTitles(): String = customer.rentals
+        .joinToString(separator = "") { rental ->
+            titleForLine(rental, determineAmountsForLine(rental))
+        }
 
-    fun getTotalAmount(): Double {
-        return customer.rentals.stream()
-            .map<Double> { each: Rental -> determineAmountsForLine(each) }
-            .reduce(0.0) { a, b -> a+b }
-    }
+    fun getTotalAmount(): Double =
+        customer.rentals
+            .map { rental: Rental -> determineAmountsForLine(rental) }
+            .sum()
 
-    fun getFrequentRenterPoints(): Int {
-        return customer.rentals.stream()
-            .map<Int> { obj: Rental -> obj.rentalBonus() }
-            .reduce(0) { a: Int, b: Int -> Integer.sum(a, b) }
-    }
+    fun getFrequentRenterPoints(): Int =
+        customer.rentals
+            .map(Rental::rentalBonus)
+            .sum()
 
     companion object {
-        fun addTitleForLine(each: Rental, thisAmount: kotlin.Double): String {
-            val movie = each.movie
-            return String.format("\t%s\t%s\n", movie.title, thisAmount)
-        }
+        fun titleForLine(each: Rental, thisAmount: Double): String =
+            "\t${each.movie().title}\t$thisAmount\n"
 
         fun determineAmountsForLine(each: Rental): Double {
             return when (each.movie.priceCode) {
