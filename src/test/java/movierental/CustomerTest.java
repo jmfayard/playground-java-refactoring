@@ -17,15 +17,17 @@ public class CustomerTest {
                 .addRental("Toy Story", PriceCode.CHILDRENS, 4);
 
         String expected = """
-                Rental Record for Bob
-                	Jaws	2.0
-                	Golden Eye	3.5
-                	Short New	3.0
-                	Long New	6.0
-                	Bambi	1.5
-                	Toy Story	3.0
-                Amount owed is 19.0
-                You earned 7 frequent renter points
+                <h1>Rental Record for <em>Bob</em></h1>
+                <table>
+                  <tr><td>Jaws</td><td>2.0</td></tr>
+                  <tr><td>Golden Eye</td><td>3.5</td></tr>
+                  <tr><td>Short New</td><td>3.0</td></tr>
+                  <tr><td>Long New</td><td>6.0</td></tr>
+                  <tr><td>Bambi</td><td>1.5</td></tr>
+                  <tr><td>Toy Story</td><td>3.0</td></tr>
+                </table>
+                <p>Amount owed is <em>19.0</em></p>
+                <p>You earned <em>7</em> frequent renter points</p>
                 """;
 
         assertEquals(expected, customer.statement());

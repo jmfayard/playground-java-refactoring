@@ -4,23 +4,28 @@ class CustomersFormatter(val customer: Customer) {
 
     fun statement(): String {
         // add bonus for a two day new release rental
-        val frequentRenterPoints = getFrequentRenterPoints()
         val totalAmount = getTotalAmount()
 
-        val amountOwned = "Amount owed is $totalAmount"
-        val youEarned = "You earned $frequentRenterPoints frequent renter points"
         return """
 ${header()}
 ${rentalsTitles()}
-$amountOwned
-$youEarned
+${getAmountOwned(totalAmount)}
+${renterPointsEarned(getFrequentRenterPoints())}
 """.trimStart()
     }
 
-    fun header(): String = """Rental Record for ${customer.name}"""
+    fun renterPointsEarned(frequentRenterPoints: Int): String = "<p>You earned <em>$frequentRenterPoints</em> frequent renter points</p>"
+
+    fun getAmountOwned(totalAmount: Double): String = "<p>Amount owed is <em>$totalAmount</em></p>"
+
+    fun header(): String = """<h1>Rental Record for <em>${customer.name}</em></h1>"""
 
     fun rentalsTitles(): String = customer.rentals
-        .joinToString(separator = "") { rental ->
+        .joinToString(
+            prefix = "<table>\n",
+            postfix = "</table>",
+            separator = ""
+        ) { rental ->
             titleForLine(rental, determineAmountsForLine(rental))
         }.trimEnd()
 
@@ -36,7 +41,7 @@ $youEarned
 
     companion object {
         fun titleForLine(each: Rental, thisAmount: Double): String =
-            "\t${each.movie().title}\t$thisAmount\n"
+            "  <tr><td>${each.movie().title}</td><td>$thisAmount</td></tr>\n"
 
         fun determineAmountsForLine(each: Rental): Double {
             return when (each.movie.priceCode) {
