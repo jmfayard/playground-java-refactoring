@@ -1,28 +1,19 @@
-package movierental;
+package movierental
 
-import java.util.ArrayList;
-import java.util.List;
+data class Customer(
+    @JvmField val name: String,
+) {
+    @JvmField val rentals: MutableList<Rental> = mutableListOf()
 
-
-public class Customer {
-
-    public final String name;
-    public final List<Rental> rentals = new ArrayList<>();
-
-    public Customer(String name) {
-        this.name = name;
+    fun addRental(movie: String, priceCode: PriceCode, daysRented: Int): Customer {
+        return addRental(Rental(Movie(movie, priceCode), daysRented))
     }
 
-    public Customer addRental(String movie, PriceCode priceCode, int daysRented) {
-        return addRental(new Rental(new Movie(movie, priceCode), daysRented));
+    fun addRental(arg: Rental): Customer {
+        rentals.add(arg)
+        return this
     }
 
-    public Customer addRental(Rental arg) {
-        rentals.add(arg);
-        return this;
-    }
-
-    public String statement() {
-        return new RentalsFormatter(this).statement();
-    }
+    fun statement(): String =
+        RentalsFormatter(this).statement()
 }
