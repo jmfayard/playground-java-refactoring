@@ -43,11 +43,11 @@ public class Customer {
 
     private static String addTitleForLine(Rental each, double thisAmount) {
         Movie movie = each.movie();
-        return String.format("\t%s\t%s\n", movie.getTitle(), thisAmount);
+        return String.format("\t%s\t%s\n", movie.title(), thisAmount);
     }
 
     private static double determineAmountsForLine(Rental each) {
-        return switch (each.movie().getPriceCode()) {
+        return switch (each.movie().priceCode()) {
             case PriceCode.REGULAR:
                 if (each.daysRented() > 2)
                     yield 1.5 * each.daysRented() - 1;

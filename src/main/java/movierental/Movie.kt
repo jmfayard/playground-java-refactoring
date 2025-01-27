@@ -1,5 +1,6 @@
 package movierental
 
+@JvmRecord
 data class Movie(
     val title: String,
     val priceCode: PriceCode,
