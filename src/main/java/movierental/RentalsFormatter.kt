@@ -6,15 +6,21 @@ class RentalsFormatter(val customer: Customer) {
         // add bonus for a two day new release rental
         val frequentRenterPoints = getFrequentRenterPoints()
         val totalAmount = getTotalAmount()
-        val titles = rentalsTitles()
 
-        return "Rental Record for " + customer.name + "\n" + titles + ("Amount owed is " + totalAmount + "\n") + ("You earned " + frequentRenterPoints + " frequent renter points\n")
+        val amountOwned = "Amount owed is $totalAmount"
+        val youEarned = "You earned $frequentRenterPoints frequent renter points"
+        return """
+Rental Record for ${customer.name}
+${rentalsTitles()}
+$amountOwned
+$youEarned
+""".trimStart()
     }
 
     fun rentalsTitles(): String = customer.rentals
         .joinToString(separator = "") { rental ->
             titleForLine(rental, determineAmountsForLine(rental))
-        }
+        }.trimEnd()
 
     fun getTotalAmount(): Double =
         customer.rentals
